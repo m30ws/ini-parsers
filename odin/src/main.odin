@@ -26,14 +26,14 @@ main :: proc() {
 		outfile = argv[2]
 	}
 
-	handle, err_open := os.open(argv[1], os.O_RDONLY, 0)
+	handle, err_open := os.open(argv[1], os.O_RDONLY, os.Permissions_Default_File)
 	if err_open != os.ERROR_NONE {
 		fmt.printf("Cannot open %s\n", argv[1])
 		os.exit(1)
 	}
 	defer os.close(handle)
 	
-	stream := os.stream_from_handle(handle)
+	stream := os.to_stream(handle)
 	defer io.close(stream)
 	
 	ini, err_parse_ini := parse_ini_stream(stream)
